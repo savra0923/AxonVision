@@ -2,7 +2,17 @@ import cv2
 import time
 from datetime import datetime
 
-def presenter(input_queue):
+def blur_gaus(frame, detections):
+    for (x, y, w, h) in detections:
+        roi = frame[y:y+h, x:x+w]   #get the detection's roi region
+
+        if roi.size == 0:
+            continue
+
+        b_roi = cv2.GaussianBlur(roi, (31, 31), 0)
+        frame[y:y+h, x:x+w] = b_roi  #inserted the blurred roi into the frame
+
+def presenter(input_queue, mode):
     start_time = time.time()
     frame_count = 0
 
@@ -16,8 +26,12 @@ def presenter(input_queue):
         detections = data["detections"]
         frame_count += 1
 
-        for (x, y, w, h) in detections:
-            cv2.rectangle(frame, (x, y), (x + w, y + h), (0, 255, 0), 2)
+        # if mode is 1 do not blur. if it is, blur.
+        if mode:
+            for (x, y, w, h) in detections:
+                cv2.rectangle(frame, (x, y), (x + w, y + h), (0, 255, 0), 2)
+        else:
+            blur_gaus(frame, detections)
 
         timestamp = datetime.now().strftime("%H:%M:%S")
         cv2.putText(
