@@ -6,8 +6,8 @@ from presenter import presenter
 if __name__ == "__main__":
     mp.set_start_method("spawn")
 
-    video_path = r"C:\Users\Sapir\PycharmProjects\AxonVision\People - 6387.mp4"
-    mode = 0
+    video_path = r"C:\Users\Sapir\PycharmProjects\AxonVision\instructions\People - 6387.mp4"
+    mode = 1
 
     q1 = mp.Queue(maxsize=10)
     q2 = mp.Queue(maxsize=10)
