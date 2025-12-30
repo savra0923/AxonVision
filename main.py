@@ -8,6 +8,15 @@ import argparse
 BASE_DIR = Path(__file__).resolve().parent
 
 def parse_args():
+    """
+    Parse command line arguments for the video analytics pipeline.
+
+    Returns:
+        argparse.Namespace: Parsed arguments with attributes:
+            - video (str or None): Path to the input video file. Defaults to None.
+            - mode (int): Run mode of the pipeline (0=boxes, 1=blur). Defaults to 0.
+    """
+
     parser = argparse.ArgumentParser(
         description="Multi-process video analytics pipeline"
     )
@@ -30,6 +39,21 @@ def parse_args():
     return parser.parse_args()
 
 if __name__ == "__main__":
+    """
+    Main entry point of the multi-process video analytics pipeline.
+
+    This script initializes the following processes:
+        - streamer: Reads video frames and puts them into a queue.
+        - detector: Performs motion detection on each frame and outputs frames + detections.
+        - presenter: Draws detections (or applies blur) on frames and displays them in a window.
+
+    Command-line arguments can override:
+        --video : Path to the input video.
+        --mode  : Run mode (0=boxes, 1=blur).
+
+    Process termination is handled gracefully using a multiprocessing Event.
+    """
+
     mp.set_start_method("spawn")
 
     mode = 0
