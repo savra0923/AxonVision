@@ -1,11 +1,11 @@
 import cv2
 import imutils
 
-def detector(input_queue, output_queue):
+def detector(input_queue, output_queue, shutdown_event):
     prev_frame = None
     counter = 0
 
-    while True:
+    while not shutdown_event.is_set():
         frame = input_queue.get()
 
         if frame is None:

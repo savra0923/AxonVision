@@ -1,13 +1,13 @@
 import cv2
 import time
 
-def streamer(video_path, output_queue):
+def streamer(video_path, output_queue, shutdown_event):
     cap = cv2.VideoCapture(video_path)
 
     fps = cap.get(cv2.CAP_PROP_FPS)
     frame_interval = 1.0 / fps if fps > 0 else 1 / 30
 
-    while True:
+    while not shutdown_event.is_set():
         start_time = time.time()
 
         ret, frame = cap.read()
