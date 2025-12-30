@@ -3,16 +3,51 @@ from streamer import streamer
 from detector import detector
 from presenter import presenter
 from pathlib import Path
+import argparse
 
 BASE_DIR = Path(__file__).resolve().parent
 
+def parse_args():
+    parser = argparse.ArgumentParser(
+        description="Multi-process video analytics pipeline"
+    )
+
+    parser.add_argument(
+        "--video", "-v",
+        type=str,
+        default=None,
+        help="Path to input video file"
+    )
+
+    parser.add_argument(
+        "--mode", "-m",
+        type=int,
+        default=0,
+        choices=[0, 1],
+        help="Run mode (e.g., 0=boxes, 1=blur)"
+    )
+
+    return parser.parse_args()
 
 if __name__ == "__main__":
     mp.set_start_method("spawn")
+
+    mode = 0
+
+    args = parse_args()
     shutdown_event = mp.Event()
 
-    video_path = BASE_DIR / "instructions" / "People - 6387.mp4"
-    mode = 1
+    if args.video:
+        video_path = Path(args.video)
+        if not video_path.is_absolute():
+            video_path = BASE_DIR / video_path
+    else:
+        video_path = BASE_DIR / "instructions" / "People - 6387.mp4"
+
+    if args.mode:
+        mode = args.mode
+
+    video_path = str(video_path)
 
     q1 = mp.Queue(maxsize=10)
     q2 = mp.Queue(maxsize=10)

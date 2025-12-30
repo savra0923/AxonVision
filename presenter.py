@@ -27,8 +27,8 @@ def presenter(input_queue, mode, shutdown_event):
         detections = data["detections"]
         frame_count += 1
 
-        # if mode is 1 do not blur. if it is, blur.
-        if mode:
+        # if mode is 0 do not blur. if it is 1, blur.
+        if not mode:
             for (x, y, w, h) in detections:
                 cv2.rectangle(frame, (x, y), (x + w, y + h), (0, 255, 0), 2)
         else:
