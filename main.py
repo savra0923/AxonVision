@@ -33,6 +33,7 @@ if __name__ == "__main__":
     mp.set_start_method("spawn")
 
     mode = 0
+    video_path = BASE_DIR / "instructions" / "People - 6387.mp4"
 
     args = parse_args()
     shutdown_event = mp.Event()
@@ -41,8 +42,6 @@ if __name__ == "__main__":
         video_path = Path(args.video)
         if not video_path.is_absolute():
             video_path = BASE_DIR / video_path
-    else:
-        video_path = BASE_DIR / "instructions" / "People - 6387.mp4"
 
     if args.mode:
         mode = args.mode
