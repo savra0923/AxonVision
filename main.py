@@ -2,12 +2,16 @@ import multiprocessing as mp
 from streamer import streamer
 from detector import detector
 from presenter import presenter
+from pathlib import Path
+
+BASE_DIR = Path(__file__).resolve().parent
+
 
 if __name__ == "__main__":
     mp.set_start_method("spawn")
     shutdown_event = mp.Event()
 
-    video_path = r"C:\Users\Sapir\PycharmProjects\AxonVision\instructions\People - 6387.mp4"
+    video_path = BASE_DIR / "instructions" / "People - 6387.mp4"
     mode = 1
 
     q1 = mp.Queue(maxsize=10)
