@@ -4,7 +4,7 @@ from detector import detector
 from presenter import presenter
 
 if __name__ == "__main__":
-    mp.set_start_method("spawn")  # חובה ב-Windows
+    mp.set_start_method("spawn")
 
     video_path = r"C:\Users\Sapir\PycharmProjects\AxonVision\People - 6387.mp4"
 
